@@ -19,4 +19,22 @@ var td1Tpl = []fieldParser{
 
 var td2Tpl = []fieldParser{}
 
-var td3Tpl = []fieldParser{}
+var td3Tpl = []fieldParser{
+	createFieldParser("documentCode", parseDocumentCodePassport, 0, 0, 2),
+	createFieldParser("issuingState", parseState, 0, 2, 5),
+	createFieldParser("lastName", parseLastName, 0, 5, 44),
+	createFieldParser("firstName", parseFirstName, 0, 5, 44),
+	createFieldParser("documentNumber", nil, 1, 0, 9),
+	createFieldParser("documentNumberCheckDigit", nil, 1, 9, 10),
+	createFieldParser("birthDate", parseDate, 1, 13, 19),
+	createFieldParser("birthDateCheckDigit", nil, 1, 19, 20),
+	createFieldParser("sex", parseSex, 1, 20, 21),
+	createFieldParser("expirationDate", parseDate, 1, 21, 27),
+	createFieldParser("expirationDateCheckDigit", nil, 1, 27, 28),
+	createFieldParser("nationality", nil, 1, 10, 13),
+	createFieldParser("personalNumber", parseText, 1, 28, 42),
+	// createFieldParser("personalNumberCheckDigit", nil, 1, 28, 42),
+
+	// createFieldParser("optional1", nil, 0, 15, 30),
+	// createFieldParser("optional2", nil, 1, 18, 29),
+}

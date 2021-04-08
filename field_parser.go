@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"regexp"
 	"strconv"
-	"strings"
 )
 
 func createFieldParser(fieldName string, parser textParser, line, start, end uint) fieldParser {
@@ -45,27 +44,36 @@ func parseDocumentCode(src string) (string, error) {
 	return parseText(src)
 }
 
+func parseDocumentCodePassport(src string) (string, error) {
+	if src[0] != 'P' {
+		return src, fmt.Errorf(`invalid document code: %v. First character must be P`, src)
+	}
+	return parseText(src)
+}
+
 func parseDocumentNumber(src, checkDigit string) (string, error) {
 	return "", nil
 }
 
 func parseFirstName(src string) (string, error) {
-	arr := strings.Split(src, "<<")
-	return parseText(arr[0])
+	matches := regexp.MustCompile(`<{2}([A-Z]+)<+`).FindStringSubmatch(src)
+	if len(matches) < 2 {
+		return "", fmt.Errorf("Invalid first name")
+	}
+	return parseText(matches[1])
 }
 
 func parseLastName(src string) (string, error) {
-	arr := strings.Split(src, "<<")
-	return parseText(arr[1])
+	src = regexp.MustCompile("<{2}.*").ReplaceAllString(src, "")
+	return parseText(src)
 }
-
 func parseState(src string) (string, error) {
 	src = clearText(src)
 	state := StateMap[src]
 	if state == "" {
 		return src, fmt.Errorf(`invalid state code: %v`, src)
 	}
-	return state, nil
+	return src, nil
 }
 
 func parseDate(src string) (string, error) {
