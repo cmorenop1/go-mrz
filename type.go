@@ -1,28 +1,28 @@
 package mrz
 
 type Position struct {
-	Line  uint
-	Start uint
-	End   uint
+	Line  uint `json:"line"`
+	Start uint `json:"start"`
+	End   uint `json:"end"`
 }
 
 type Range struct {
-	Position *Position
-	Raw      string
+	Position *Position `json:"position"`
+	Raw      string    `json:"raw"`
 }
 
 type Field struct {
-	Name     string
-	Value    string
-	Valid    bool
-	Ranges   []Range
-	Position *Position
+	Name     string    `json:"name"`
+	Value    string    `json:"value"`
+	Valid    bool      `json:"valid"`
+	Ranges   []Range   `json:"ranges"`
+	Position *Position `json:"position"`
 }
 
 type Document struct {
-	Format string
-	Fields []*Field
-	Valid  bool
+	Format string   `json:"format"`
+	Fields []*Field `json:"fields"`
+	Valid  bool     `json:"valid"`
 }
 
 type fieldParser func(lines []string) (*Field, error)
