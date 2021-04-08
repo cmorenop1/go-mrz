@@ -20,9 +20,10 @@ type Field struct {
 }
 
 type Document struct {
-	Format string   `json:"format"`
-	Fields []*Field `json:"fields"`
-	Valid  bool     `json:"valid"`
+	Format  string                 `json:"format"`
+	Fields  []*Field               `json:"details"`
+	Summary map[string]interface{} `json:"fields"`
+	Valid   bool                   `json:"valid"`
 }
 
 type fieldParser func(lines []string) (*Field, error)

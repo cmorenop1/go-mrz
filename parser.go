@@ -45,38 +45,41 @@ func Parse(data string) (*Document, error) {
 }
 
 func parseTD1(lines []string) (*Document, error) {
-	fields, valid, err := parseFields(lines, td1Tpl)
+	fields, summary, valid, err := parseFields(lines, td1Tpl)
 	if err != nil {
 		return nil, err
 	}
 	return &Document{
-		Format: "TD1",
-		Fields: fields,
-		Valid:  valid,
+		Format:  "TD1",
+		Fields:  fields,
+		Summary: summary,
+		Valid:   valid,
 	}, nil
 }
 
 func parseTD2(lines []string) (*Document, error) {
-	fields, valid, err := parseFields(lines, td2Tpl)
+	fields, summary, valid, err := parseFields(lines, td2Tpl)
 	if err != nil {
 		return nil, err
 	}
 	return &Document{
-		Format: "TD2",
-		Fields: fields,
-		Valid:  valid,
+		Format:  "TD2",
+		Fields:  fields,
+		Summary: summary,
+		Valid:   valid,
 	}, nil
 }
 
 func parseTD3(lines []string) (*Document, error) {
-	fields, valid, err := parseFields(lines, td3Tpl)
+	fields, summary, valid, err := parseFields(lines, td3Tpl)
 	if err != nil {
 		return nil, err
 	}
 	return &Document{
-		Format: "TD3",
-		Fields: fields,
-		Valid:  valid,
+		Format:  "TD3",
+		Fields:  fields,
+		Summary: summary,
+		Valid:   valid,
 	}, nil
 }
 
@@ -88,16 +91,22 @@ func parseFrenchID(lines []string) (*Document, error) {
 	return nil, nil
 }
 
-func parseFields(lines []string, tpl []fieldParser) ([]*Field, bool, error) {
-	var fields []*Field
+func parseFields(lines []string, tpl []fieldParser) ([]*Field, map[string]interface{}, bool, error) {
+	var (
+		fields  []*Field
+		summary = map[string]interface{}{}
+	)
 	valid := true
 	for _, parse := range tpl {
 		f, err := parse(lines)
 		if err != nil {
-			return nil, false, err
+			return nil, nil, false, err
 		}
 		fields = append(fields, f)
 		valid = valid && f.Valid
+		if valid {
+			summary[f.Name] = f.Value
+		}
 	}
-	return fields, valid, nil
+	return fields, summary, valid, nil
 }
