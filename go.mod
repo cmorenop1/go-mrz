@@ -1,4 +1,4 @@
-module github.com/leowilbur/go-mrz
+module github.com/leowilbur/go-mrz/v1
 
 go 1.13
 
