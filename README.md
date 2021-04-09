@@ -2,9 +2,9 @@
 Parse MRZ (Machine Readable Zone) from identity, passport documents.
 
 ## Installation
-
-`$ go get github.com/leowilbur/go-mrz
-
+```
+go get github.com/leowilbur/go-mrz
+```
 ## Example
 
 ```go
