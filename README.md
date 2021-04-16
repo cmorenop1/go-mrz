@@ -23,3 +23,5 @@ func main() {
 	println(string(buff))
 }
 ```
+
+https://play.golang.org/p/a4JWmCk2_bF
